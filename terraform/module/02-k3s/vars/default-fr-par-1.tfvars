@@ -1,0 +1,7 @@
+region              = "fr-par"
+zone                = "fr-par-1"
+project             = "a26a2ce4-2fbf-4cde-8e06-3d2dd3d962d7"
+worker_image        = "ubuntu-k3s-worker-pewty-09-01-2023-20-58"
+master_image        = "ubuntu-k3s-master-pewty-09-01-2023-20-57"
+netmaker_access_key = "f2496e6f6cc0a601"
+wg_iface            = "nm-default"

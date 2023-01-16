@@ -1,8 +1,0 @@
-network:
-  version: 2
-  ethernets:
-    ens5:
-      dhcp4: true
-      dhcp4-overrides:
-        route-metric: 50
-      addresses: [${PRIVATE_NET_IP}/${PRIVATE_NETMASK}]

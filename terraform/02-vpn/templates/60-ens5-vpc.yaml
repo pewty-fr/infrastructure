@@ -1,5 +1,0 @@
-network:
-  version: 2
-  ethernets:
-    ens5:
-      addresses: [${PRIVATE_NET_IP}/${PRIVATE_NETMASK}]
