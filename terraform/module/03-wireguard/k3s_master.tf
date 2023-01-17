@@ -24,6 +24,6 @@ resource "aws_s3_object" "k3s_master" {
     })
   })
   tags = {
-    update = "yes"
+    update = "no"
   }
 }

@@ -25,6 +25,6 @@ resource "aws_s3_object" "k3s_worker" {
     })
   })
   tags = {
-    update = "yes"
+    update = "no"
   }
 }

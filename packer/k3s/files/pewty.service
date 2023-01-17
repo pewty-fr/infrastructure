@@ -1,0 +1,11 @@
+[Unit]
+Description=Update network interfaces, wireguard and k3s on demand (with s3)
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/bash -c 'mc cat scw/pewty-instance-config/init.sh | bash'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

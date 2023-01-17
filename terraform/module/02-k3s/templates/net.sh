@@ -3,13 +3,24 @@
 ###########
 ## network
 ###########
-mac_address=$(scw-metadata-json | jq -r '.private_nics[0].mac_address')
-interface=$(grep -rl "$${mac_address}" /sys/class/net/*/address | cut -d "/" -f 5)
+interface=$(ls -1 /sys/class/net/*/address | grep "ens" | grep -v "ens2" | cut -d "/" -f 5)
+if [ -z "$${interface}" ]
+then
+  return
+fi
 cat > /etc/netplan/60-$${interface}-vpc.yaml << EOL
 network:
   version: 2
   ethernets:
     $${interface}:
       addresses: [${PRIVATE_IP}/${PRIVATE_NETMASK}]
+%{ if length(MASTER_PRIVATE_IPS) > 0 ~}
+      routes:
+%{ for ip in MASTER_PRIVATE_IPS ~}
+        - to: default
+          via: ${ip}
+          metric: 10
+%{ endfor ~}
+%{ endif ~}
 EOL
 netplan apply
