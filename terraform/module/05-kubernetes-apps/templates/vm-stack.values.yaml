@@ -1,0 +1,52 @@
+vmsingle:
+  enabled: false
+
+vmcluster:
+  enabled: true
+  spec:
+    retentionPeriod: "365"
+    vmstorage:
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "scw-bssd"
+            resources: 
+              requests:
+                storage: "20Gi"
+    vmselect:
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "scw-bssd"
+            resources: 
+              requests:
+                storage: "2Gi"
+
+alertmanager:
+  spec:
+    externalURL: "https://alertmanager.default.pewty.xyz"
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "scw-bssd"
+          resources: 
+            requests:
+              storage: "2Gi"
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    hosts:
+    - "alertmanager.default.pewty.xyz"
+
+grafana:
+  persistence:
+    enabled: true
+    storageClassName: "scw-bssd"
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    hosts:
+    - "grafana.default.pewty.xyz"
+
+kubeEtcd:
+  enabled: false

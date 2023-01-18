@@ -1,5 +1,15 @@
 #!/usr/bin/bash
 
+metadata(){
+  # to access directly to scaleway metadata and avoid getting metadata from router server
+  ip=$(ip -f inet addr show ens2 | awk '/inet / {print $2}' | cut -d "/" -f 1)
+  cat >> /etc/netplan/50-cloud-init.yaml << EOL
+            - to: 169.254.42.42/32
+              via: ${ip}
+EOL
+  netplan apply
+}
+
 check_net(){
     if [ -z "${interface}" ]
     then
@@ -42,6 +52,7 @@ then
     iptables -A FORWARD -i ${interface} -o ens2 -j ACCEPT
 fi
 
+metadata
 wg-quick up wg-pewty
 check_net
 check_wg
@@ -90,6 +101,9 @@ do
         mc tag set scw/pewty-instance-config/$HOSTNAME/k3s.sh "update=no"
         echo "updating k3s"
         mc cat scw/pewty-instance-config/$HOSTNAME/k3s.sh | bash
+        sleep 120
+        mc cat scw/pewty-instance-config/$HOSTNAME/kubernetes-base.sh | bash
+        mc cat scw/pewty-instance-config/$HOSTNAME/kubernetes-apps.sh | bash
     fi
 
     sleep 10

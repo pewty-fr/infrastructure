@@ -28,4 +28,3 @@ curl -sfL https://get.k3s.io | sh -s - $${options[@]} \
   $${nodeTaints[@]} \
   --node-name ${NODE_ID} \
   --node-ip ${NODE_IP}
-

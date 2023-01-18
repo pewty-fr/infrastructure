@@ -16,10 +16,10 @@ network:
       addresses: [${PRIVATE_IP}/${PRIVATE_NETMASK}]
 %{ if length(MASTER_PRIVATE_IPS) > 0 ~}
       routes:
-%{ for ip in MASTER_PRIVATE_IPS ~}
+%{ for n, ip in MASTER_PRIVATE_IPS ~}
         - to: default
           via: ${ip}
-          metric: 10
+          metric: $(( $${RANDOM} % 30 + 10 + ${n} ))
 %{ endfor ~}
 %{ endif ~}
 EOL

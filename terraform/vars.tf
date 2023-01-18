@@ -55,3 +55,13 @@ variable "instance_state" {
   type    = string
   default = "started"
 }
+
+variable "scw_access_key" {
+  sensitive = true
+  type      = string
+}
+
+variable "scw_secret_key" {
+  sensitive = true
+  type      = string
+}

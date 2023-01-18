@@ -58,9 +58,27 @@ module "wireguard_AZ_A" {
     mask    = var.pool.mask
     az_name = "AZ_A"
   }
-  wg_server = {                  # dynamic data
+  wg_server = { # dynamic data
     k3s_master = module.k3s_AZ_A.k3s_master
     k3s_worker = module.k3s_AZ_A.k3s_worker
   }
   external_device = var.external_device
+}
+
+module "kubernetes_base" {
+  source          = "./module/04-kubernetes-base"
+  region          = var.region
+  project         = var.project
+  zone            = var.zone
+  scw_access_key  = var.scw_access_key
+  scw_secret_key  = var.scw_secret_key
+  k3s_master_name = module.k3s_AZ_A.k3s_master["k3s-master-01"].name
+}
+
+module "kubernetes_apps" {
+  source          = "./module/05-kubernetes-apps"
+  region          = var.region
+  project         = var.project
+  zone            = var.zone
+  k3s_master_name = module.k3s_AZ_A.k3s_master["k3s-master-01"].name
 }

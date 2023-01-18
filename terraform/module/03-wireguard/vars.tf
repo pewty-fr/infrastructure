@@ -53,6 +53,7 @@ variable "wg_server" {
       id    = string
       ip_id = string
       name  = string
+      public_ip = string
     }))
     k3s_worker = map(object({
       id    = string

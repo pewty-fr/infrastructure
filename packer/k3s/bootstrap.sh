@@ -21,6 +21,7 @@ apt install wireguard -y
 ###########
 ## k3s
 ###########
+apt install helm -y
 curl -sfL https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true sh -
 
 ###########

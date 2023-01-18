@@ -4,7 +4,7 @@ project             = "a26a2ce4-2fbf-4cde-8e06-3d2dd3d962d7"
 image               = "ubuntu-k3s-pewty-17-01-2023-17-09"
 netmaker_access_key = "9713240081e6962a"
 wg_iface            = "nm-default"
-instance_state      = "stopped"
+instance_state      = "started"
 
 pool = {
   net  = "172.17.0.0"
@@ -31,6 +31,10 @@ pool = {
         "k3s-worker-01" = {
           wg_ip      = "172.17.0.13"
           private_ip = "172.16.0.13"
+        }
+        "k3s-worker-02" = {
+          wg_ip      = "172.17.0.14"
+          private_ip = "172.16.0.14"
         }
       }
     }

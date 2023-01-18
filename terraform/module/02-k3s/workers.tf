@@ -2,7 +2,7 @@ resource "scaleway_instance_server" "k3s_worker" {
   for_each    = var.az.k3s_worker
   name        = "${data.scaleway_account_project.by_project_id.name}-${var.zone}-${each.key}"
   image       = data.scaleway_instance_image.k3s.image_id
-  type        = "DEV1-S"
+  type        = "DEV1-M"
   enable_ipv6 = true
   state       = var.instance_state
   root_volume {
@@ -20,14 +20,14 @@ resource "aws_s3_object" "net_worker" {
   bucket   = "pewty-instance-config"
   key      = "${scaleway_instance_server.k3s_worker[each.key].name}/net.sh"
   content = templatefile("${path.module}/templates/net.sh", {
-    PRIVATE_IP      = each.value.private_ip
-    PRIVATE_NETMASK = var.az.private_mask
-    MASTER_PRIVATE_IPS = [ for node in var.az.k3s_master : node.private_ip ]
+    PRIVATE_IP         = each.value.private_ip
+    PRIVATE_NETMASK    = var.az.private_mask
+    MASTER_PRIVATE_IPS = [for node in var.az.k3s_master : node.private_ip]
   })
   etag = md5(templatefile("${path.module}/templates/net.sh", {
-    PRIVATE_IP      = each.value.private_ip
-    PRIVATE_NETMASK = var.az.private_mask
-    MASTER_PRIVATE_IPS = [ for node in var.az.k3s_master : node.private_ip ]
+    PRIVATE_IP         = each.value.private_ip
+    PRIVATE_NETMASK    = var.az.private_mask
+    MASTER_PRIVATE_IPS = [for node in var.az.k3s_master : node.private_ip]
   }))
   tags = {
     update = "yes"

@@ -25,7 +25,6 @@ provider "scaleway" {
   project_id = var.project
 }
 
-# Configure the AWS Provider
 provider "aws" {
   region = "fr-par"
   endpoints {
