@@ -24,3 +24,12 @@ resource "ovh_domain_zone_record" "alertmanager" {
   ttl       = "60"
   target    = each.value.private_ip
 }
+
+resource "ovh_domain_zone_record" "dashboard" {
+  for_each  = var.az.k3s_master
+  zone      = "pewty.xyz"
+  subdomain = "dashboard.default"
+  fieldtype = "A"
+  ttl       = "60"
+  target    = each.value.private_ip
+}

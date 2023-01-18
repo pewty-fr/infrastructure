@@ -15,3 +15,10 @@ EOL
 
 kubectl create ns vm-stack
 helm --kubeconfig /etc/rancher/k3s/k3s.yaml install vm-stack vm/victoria-metrics-k8s-stack -f /root/vm-stack.values.yaml -n vm-stack
+
+cat > /root/dashboard.values.yaml << EOL
+${DASHBOARD}
+EOL
+
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f /root/dashboard.values.yaml

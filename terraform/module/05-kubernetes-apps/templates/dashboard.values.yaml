@@ -1,0 +1,7 @@
+ingress:
+  enabled: true
+  className: "traefik"
+  hosts:
+  - "alertmanager.default.pewty.xyz"
+metricsScraper:
+  enabled: true

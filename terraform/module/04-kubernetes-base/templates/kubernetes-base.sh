@@ -10,11 +10,6 @@ kubectl kustomize client/config/crd | kubectl create -f -
 kubectl apply -f https://raw.githubusercontent.com/scaleway/scaleway-csi/master/deploy/kubernetes/scaleway-csi-v0.2.0.yaml
 
 ###########
-## Dashboard
-###########
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-
-###########
 ## Secrets
 ###########
 cat > /root/secrets.yaml << EOL
