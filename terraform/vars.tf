@@ -23,20 +23,24 @@ variable "pool" {
     net  = string
     mask = string
     AZs = map(object({
-      wg_net       = string
-      wg_mask      = string
-      private_net  = string
-      private_mask = string
+      wg_net          = string
+      wg_mask         = string
+      private_net_v6  = string
+      private_mask_v6 = string
+      private_net     = string
+      private_mask    = string
       db = map(object({
         private_ip = string
       }))
       k3s_master = map(object({
-        wg_ip      = string
-        private_ip = string
+        wg_ip         = string
+        private_ip_v6 = string
+        private_ip    = string
       }))
       k3s_worker = map(object({
-        wg_ip      = string
-        private_ip = string
+        wg_ip         = string
+        private_ip_v6 = string
+        private_ip    = string
       }))
     }))
   })
@@ -64,4 +68,18 @@ variable "scw_access_key" {
 variable "scw_secret_key" {
   sensitive = true
   type      = string
+}
+
+variable "default_user" {
+  type = object({
+    username = string
+    email    = string
+  })
+}
+
+variable "applications" {
+  type = map(object({
+    domain    = string
+    is_public = bool
+  }))
 }

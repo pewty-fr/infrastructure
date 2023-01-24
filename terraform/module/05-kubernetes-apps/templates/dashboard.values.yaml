@@ -2,6 +2,9 @@ ingress:
   enabled: true
   className: "traefik"
   hosts:
-  - "alertmanager.default.pewty.xyz"
+  - ${DOMAIN}
 metricsScraper:
   enabled: true
+protocolHttp: true
+extraArgs:
+  - --enable-insecure-login

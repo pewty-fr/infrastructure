@@ -1,0 +1,25 @@
+authentik:
+  secret_key: ${SECRET_KEY}
+  # This sends anonymous usage-data, stack traces on errors and
+  # performance data to sentry.beryju.org, and is fully opt-in
+  error_reporting:
+    enabled: false
+  postgresql:
+    host: ${AUTHENTIK_IP}
+    port: ${AUTHENTIK_PORT}
+    name: ${AUTHENTIK_NAME}
+    user: ${AUTHENTIK_USER}
+    password: ${AUTHENTIK_PASSWORD}
+
+ingress:
+  enabled: true
+  hosts:
+    - host: ${DOMAIN}
+      paths:
+        - path: "/"
+          pathType: Prefix
+
+postgresql:
+  enabled: false
+redis:
+  enabled: true

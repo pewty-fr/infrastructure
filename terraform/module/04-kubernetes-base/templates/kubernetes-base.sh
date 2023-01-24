@@ -18,3 +18,4 @@ EOL
 
 kubectl apply -f /root/secrets.yaml
 rm /root/secrets.yaml
+

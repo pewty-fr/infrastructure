@@ -28,3 +28,10 @@ variable "k3s_master_name" {
   description = "description"
 }
 
+
+variable "default_user" {
+  type = object({
+    username = string
+    email    = string
+  })
+}

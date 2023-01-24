@@ -1,7 +1,7 @@
 resource "scaleway_rdb_instance" "pewty" {
   for_each                  = var.az.db
   name                      = "pewty-${data.scaleway_account_project.by_project_id.name}-${each.key}"
-  node_type                 = "db-dev-m"
+  node_type                 = "db-dev-s"
   engine                    = "PostgreSQL-14"
   is_ha_cluster             = false
   backup_same_region        = false

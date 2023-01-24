@@ -18,3 +18,25 @@ variable "k3s_master_name" {
   description = "description"
 }
 
+variable "db" {
+  type = map(object({
+    public_ip    = string
+    public_port  = string
+    private_ip   = string
+    private_port = string
+    name         = string
+    user         = string
+    password     = string
+  }))
+}
+
+variable "applications" {
+  type = map(object({
+    domain    = string
+    is_public = bool
+  }))
+}
+
+data "scaleway_account_project" "by_project_id" {
+  project_id = var.project
+}

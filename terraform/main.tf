@@ -45,6 +45,8 @@ module "k3s_AZ_A" {
     az_name = "AZ_A"
   }
   instance_state = var.instance_state
+  default_user   = var.default_user
+  applications   = var.applications
 }
 
 module "wireguard_AZ_A" {
@@ -73,6 +75,7 @@ module "kubernetes_base" {
   scw_access_key  = var.scw_access_key
   scw_secret_key  = var.scw_secret_key
   k3s_master_name = module.k3s_AZ_A.k3s_master["k3s-master-01"].name
+  default_user    = var.default_user
 }
 
 module "kubernetes_apps" {
@@ -81,4 +84,9 @@ module "kubernetes_apps" {
   project         = var.project
   zone            = var.zone
   k3s_master_name = module.k3s_AZ_A.k3s_master["k3s-master-01"].name
+  db = {
+    gitea     = module.db_AZ_A.db_gitea
+    authentik = module.db_AZ_A.db_authentik
+  }
+  applications = var.applications
 }

@@ -51,18 +51,24 @@ variable "instance_state" {
 
 variable "az" {
   type = object({
-    wg_net       = string
-    wg_mask      = string
-    private_net  = string
-    private_mask = string
+    wg_net          = string
+    wg_mask         = string
+    private_net_v6  = string
+    private_mask_v6 = string
+    private_net     = string
+    private_mask    = string
     db = map(object({
       private_ip = string
     }))
     k3s_master = map(object({
-      private_ip = string
+      wg_ip         = string
+      private_ip_v6 = string
+      private_ip    = string
     }))
     k3s_worker = map(object({
-      private_ip = string
+      wg_ip         = string
+      private_ip_v6 = string
+      private_ip    = string
     }))
   })
   description = "description"
@@ -74,4 +80,18 @@ data "scaleway_account_project" "by_project_id" {
 
 data "scaleway_instance_image" "k3s" {
   name = var.image
+}
+
+variable "applications" {
+  type = map(object({
+    domain    = string
+    is_public = bool
+  }))
+}
+
+variable "default_user" {
+  type = object({
+    username = string
+    email    = string
+  })
 }

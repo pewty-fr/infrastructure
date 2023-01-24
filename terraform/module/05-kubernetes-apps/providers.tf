@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    scaleway = {
+      source  = "scaleway/scaleway"
+      version = "2.8.0"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.0"
@@ -17,4 +21,10 @@ provider "aws" {
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
   skip_region_validation      = true
+}
+
+provider "scaleway" {
+  region     = var.region
+  zone       = var.zone
+  project_id = var.project
 }

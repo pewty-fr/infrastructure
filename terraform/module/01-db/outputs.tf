@@ -11,3 +11,31 @@ output "db_k3s" {
     password     = scaleway_rdb_user.k3s_admin.password
   }
 }
+
+output "db_gitea" {
+  sensitive   = true
+  description = "description"
+  value = {
+    public_ip    = scaleway_rdb_instance.pewty["db-01"].load_balancer[0].ip
+    public_port  = scaleway_rdb_instance.pewty["db-01"].load_balancer[0].port
+    private_ip   = scaleway_rdb_instance.pewty["db-01"].private_network[0].ip
+    private_port = scaleway_rdb_instance.pewty["db-01"].private_network[0].port
+    name         = scaleway_rdb_database.gitea.name
+    user         = scaleway_rdb_user.gitea_admin.name
+    password     = scaleway_rdb_user.gitea_admin.password
+  }
+}
+
+output "db_authentik" {
+  sensitive   = true
+  description = "description"
+  value = {
+    public_ip    = scaleway_rdb_instance.pewty["db-01"].load_balancer[0].ip
+    public_port  = scaleway_rdb_instance.pewty["db-01"].load_balancer[0].port
+    private_ip   = scaleway_rdb_instance.pewty["db-01"].private_network[0].ip
+    private_port = scaleway_rdb_instance.pewty["db-01"].private_network[0].port
+    name         = scaleway_rdb_database.authentik.name
+    user         = scaleway_rdb_user.authentik_admin.name
+    password     = scaleway_rdb_user.authentik_admin.password
+  }
+}

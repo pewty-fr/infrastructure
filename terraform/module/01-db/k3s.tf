@@ -6,7 +6,7 @@ resource "scaleway_rdb_database" "k3s" {
 
 resource "random_password" "k3s_password" {
   length           = 30
-  override_special = "*?@!-_=+:"
+  override_special = "*?!-_=+:"
 }
 
 resource "scaleway_rdb_user" "k3s_admin" {

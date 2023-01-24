@@ -13,7 +13,7 @@ network:
   version: 2
   ethernets:
     $${interface}:
-      addresses: [${PRIVATE_IP}/${PRIVATE_NETMASK}]
+      addresses: ["${PRIVATE_IP}/${PRIVATE_NETMASK}","${PRIVATE_IP_V6}/${PRIVATE_NETMASK_V6}"]
 %{ if length(MASTER_PRIVATE_IPS) > 0 ~}
       routes:
 %{ for n, ip in MASTER_PRIVATE_IPS ~}

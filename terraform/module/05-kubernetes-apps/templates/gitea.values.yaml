@@ -1,0 +1,34 @@
+
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClass: scw-bssd
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: ${DOMAIN}
+      paths:
+        - path: /
+          pathType: Prefix
+
+postgresql:
+  enabled: false
+
+gitea:
+  admin:
+    existingSecret: gitea-admin-secret
+  config:
+    database:
+      DB_TYPE: postgres
+      HOST: ${GITEA_IP}:${GITEA_PORT}
+      NAME: ${GITEA_NAME}
+      PASSWD: ${GITEA_PASSWORD}
+      USER: ${GITEA_USER}
+    cors:
+      SCHEME: https
+    server:
+      ROOT_URL: https://${DOMAIN}

@@ -1,0 +1,3 @@
+%{ for domain in DOMAINS ~}
+${domain}   localhost
+%{ endfor ~}

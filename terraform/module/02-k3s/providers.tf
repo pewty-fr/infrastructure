@@ -15,6 +15,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    acme = {
+      source  = "vancluever/acme"
+      version = "~> 2.12.0"
+    }
   }
   required_version = ">= 1.3"
 }
@@ -38,4 +42,9 @@ provider "aws" {
 
 provider "ovh" {
   endpoint = "ovh-eu"
+}
+
+provider "acme" {
+  # server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  server_url = "https://acme-v02.api.letsencrypt.org/directory"
 }

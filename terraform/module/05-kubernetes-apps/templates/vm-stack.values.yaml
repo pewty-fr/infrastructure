@@ -24,7 +24,7 @@ vmcluster:
 
 alertmanager:
   spec:
-    externalURL: "https://alertmanager.default.pewty.xyz"
+    externalURL: "https://${ALERTMANAGER_DOMAIN}"
     storage:
       volumeClaimTemplate:
         spec:
@@ -36,7 +36,7 @@ alertmanager:
     enabled: true
     ingressClassName: "traefik"
     hosts:
-    - "alertmanager.default.pewty.xyz"
+    - ${ALERTMANAGER_DOMAIN}
 
 grafana:
   persistence:
@@ -46,7 +46,7 @@ grafana:
     enabled: true
     ingressClassName: "traefik"
     hosts:
-    - "grafana.default.pewty.xyz"
+    - ${GRAFANA_DOMAIN}
 
 kubeEtcd:
   enabled: false
