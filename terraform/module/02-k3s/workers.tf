@@ -1,7 +1,7 @@
-data "scaleway_instance_server" "k3s_worker" {
-  for_each = var.az.k3s_worker
-  name = "${data.scaleway_account_project.by_project_id.name}-${var.zone}-${each.key}"
-}
+# data "scaleway_instance_server" "k3s_worker" {
+#   for_each = var.az.k3s_worker
+#   name     = "${data.scaleway_account_project.by_project_id.name}-${var.zone}-${each.key}"
+# }
 
 resource "scaleway_instance_server" "k3s_worker" {
   for_each    = var.az.k3s_worker
@@ -19,16 +19,16 @@ resource "scaleway_instance_server" "k3s_worker" {
     pn_id = var.private_network_id
   }
 
-  additional_volume_ids = data.scaleway_instance_server.k3s_worker[each.key].additional_volume_ids
+  # additional_volume_ids = data.scaleway_instance_server.k3s_worker[each.key].additional_volume_ids
 }
 
 locals {
   k3s_worker_content = { for k, v in var.az.k3s_worker : k => templatefile("${path.module}/templates/k3s.sh", {
-    SQL_HOST        = var.db.private_ip
-    SQL_PORT        = var.db.private_port
-    SQL_DB          = var.db.name
-    SQL_USER        = var.db.user
-    SQL_PASS        = var.db.password
+    SQL_HOST        = ""
+    SQL_PORT        = ""
+    SQL_DB          = ""
+    SQL_USER        = ""
+    SQL_PASS        = ""
     NODE_IP         = v.private_ip
     NODE_ID         = k
     NODE_LABELS     = ""

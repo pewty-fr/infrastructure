@@ -13,21 +13,19 @@ variable "project" {
   description = "Scaleway project"
 }
 
-variable "k3s_master_name" {
-  type        = string
+variable "external_device" {
+  type = map(object({
+    wg_ip = string
+  }))
+  default     = {}
   description = "description"
 }
 
-variable "db" {
-  type = map(object({
-    public_ip    = string
-    public_port  = string
-    private_ip   = string
-    private_port = string
-    name         = string
-    user         = string
-    password     = string
-  }))
+variable "default_user" {
+  type = object({
+    username = string
+    email    = string
+  })
 }
 
 variable "applications" {
@@ -37,6 +35,12 @@ variable "applications" {
   }))
 }
 
-data "scaleway_account_project" "by_project_id" {
-  project_id = var.project
+variable "scw_access_key" {
+  sensitive = true
+  type      = string
+}
+
+variable "scw_secret_key" {
+  sensitive = true
+  type      = string
 }

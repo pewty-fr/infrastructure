@@ -27,9 +27,9 @@ locals {
   k3s_master_content = { for k, v in var.az.k3s_master : k => templatefile("${path.module}/templates/k3s.sh", {
     SQL_HOST        = var.db.private_ip
     SQL_PORT        = var.db.private_port
-    SQL_DB          = var.db.name
-    SQL_USER        = var.db.user
-    SQL_PASS        = var.db.password
+    SQL_DB          = var.db.k3s.name
+    SQL_USER        = var.db.k3s.user
+    SQL_PASS        = var.db.k3s.password
     NODE_IP         = v.private_ip
     NODE_ID         = k
     NODE_LABELS     = ""
@@ -47,25 +47,6 @@ locals {
     PRIVATE_NETMASK_V6 = var.az.private_mask_v6
     MASTER_PRIVATE_IPS = []
   }) }
-
-  haproxy_master_content = { for k, v in var.az.k3s_master : k => templatefile("${path.module}/templates/haproxy.sh", {
-    CONFIG = templatefile("${path.module}/templates/haproxy.cfg", {
-      PRIVATE_IP   = v.private_ip
-      PRIVATE_IPV6 = v.private_ip_v6
-      PUBLIC_IP    = scaleway_instance_ip.ip[k].address
-      PUBLIC_IPV6  = scaleway_instance_server.k3s_master[k].ipv6_address
-    })
-    PUBLIC_MAP = templatefile("${path.module}/templates/domaintobackend.map", {
-      DOMAINS = [
-        for app in var.applications : app.domain if app.is_public
-      ]
-    })
-    PRIVATE_MAP = templatefile("${path.module}/templates/domaintobackend.map", {
-      DOMAINS = [
-        for app in var.applications : app.domain if app.is_public
-      ]
-    })
-  }) }
 }
 
 resource "aws_s3_object" "net_master" {
@@ -80,7 +61,6 @@ resource "aws_s3_object" "net_master" {
   }
 }
 
-
 resource "aws_s3_object" "k3s_master" {
   for_each = var.az.k3s_master
   bucket   = "pewty-instance-config"
@@ -92,13 +72,74 @@ resource "aws_s3_object" "k3s_master" {
   }
 }
 
-resource "aws_s3_object" "haproxy_master" {
-  for_each = var.az.k3s_master
-  bucket   = "pewty-instance-config"
-  key      = "${scaleway_instance_server.k3s_master[each.key].name}/haproxy.sh"
-  content  = local.haproxy_master_content[each.key]
-  etag     = md5(local.haproxy_master_content[each.key])
-  tags = {
-    update = "yes"
+resource "scaleway_instance_security_group" "k3s_master" {
+  name = "k3s_master"
+  inbound_default_policy  = "drop"
+  outbound_default_policy = "accept"
+
+  inbound_rule {
+    action = "accept"
+    port   = 22
+    ip_range     = "0.0.0.0/0"
+  }
+
+  inbound_rule {
+    action = "accept"
+    port   = 80
+    ip_range     = "0.0.0.0/0"
+  }
+
+  inbound_rule {
+    action = "accept"
+    port   = 443
+    ip_range     = "0.0.0.0/0"
+  }
+
+  inbound_rule {
+    action = "accept"
+    port   = 22
+    ip_range     = "::/0"
+  }
+
+  inbound_rule {
+    action = "accept"
+    port   = 80
+    ip_range     = "::/0"
+  }
+
+  inbound_rule {
+    action = "accept"
+    port   = 443
+    ip_range     = "::/0"
+  }
+
+  inbound_rule {
+    action = "accept"
+    port   = 6443
+    ip_range     = "172.16.0.0/24"
+  }
+  
+  inbound_rule {
+    action = "accept"
+    port   = 6443
+    ip_range     = "172.16.0.0/24"
+  }
+  
+  inbound_rule {
+    action = "accept"
+    port   = 8472
+    ip_range     = "172.16.0.0/24"
+  }
+  
+  inbound_rule {
+    action = "accept"
+    port   = 10250
+    ip_range     = "172.16.0.0/24"
+  }
+  
+  inbound_rule {
+    action = "accept"
+    port   = 51820
+    ip_range     = "172.16.0.0/24"
   }
 }

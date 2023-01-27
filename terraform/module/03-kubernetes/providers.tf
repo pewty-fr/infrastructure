@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    ovh = {
+      source  = "ovh/ovh"
+      version = "0.26.0"
+    }
   }
   required_version = ">= 1.3"
 }
@@ -27,4 +31,8 @@ provider "scaleway" {
   region     = var.region
   zone       = var.zone
   project_id = var.project
+}
+
+provider "ovh" {
+  endpoint = "ovh-eu"
 }

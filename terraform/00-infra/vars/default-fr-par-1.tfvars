@@ -4,11 +4,6 @@ project        = "a26a2ce4-2fbf-4cde-8e06-3d2dd3d962d7"
 image          = "ubuntu-k3s-pewty-20-01-2023-08-35"
 instance_state = "started"
 
-default_user = {
-  username = "tanguy.falconnet"
-  email    = "tanguy.falconnet@pewty.fr"
-}
-
 pool = {
   net  = "172.16.0.0"
   mask = "16"
@@ -50,34 +45,5 @@ pool = {
         }
       }
     }
-  }
-}
-
-external_device = {
-  ep_hp = {
-    wg_ip = "172.17.0.230"
-  }
-}
-
-applications = {
-  grafana = {
-    domain    = "grafana"
-    is_public = true
-  }
-  alertmanager = {
-    domain    = "alertmanager"
-    is_public = false
-  }
-  dashboard = {
-    domain    = "dashboard"
-    is_public = false
-  }
-  authentik = {
-    domain    = "auth"
-    is_public = true
-  }
-  gitea = {
-    domain    = "git"
-    is_public = true
   }
 }

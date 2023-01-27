@@ -25,24 +25,9 @@ variable "private_network_id" {
 
 variable "db" {
   description = "description"
-  type = object({
-    public_ip    = string
-    public_port  = string
-    private_ip   = string
-    private_port = string
-    name         = string
-    user         = string
-    password     = string
-  })
+  type = any
 }
 
-variable "pool_def" {
-  type = object({
-    net     = string
-    mask    = string
-    az_name = string
-  })
-}
 
 variable "instance_state" {
   type    = string
@@ -50,27 +35,7 @@ variable "instance_state" {
 }
 
 variable "az" {
-  type = object({
-    wg_net          = string
-    wg_mask         = string
-    private_net_v6  = string
-    private_mask_v6 = string
-    private_net     = string
-    private_mask    = string
-    db = map(object({
-      private_ip = string
-    }))
-    k3s_master = map(object({
-      wg_ip         = string
-      private_ip_v6 = string
-      private_ip    = string
-    }))
-    k3s_worker = map(object({
-      wg_ip         = string
-      private_ip_v6 = string
-      private_ip    = string
-    }))
-  })
+  type = any
   description = "description"
 }
 
@@ -82,16 +47,3 @@ data "scaleway_instance_image" "k3s" {
   name = var.image
 }
 
-variable "applications" {
-  type = map(object({
-    domain    = string
-    is_public = bool
-  }))
-}
-
-variable "default_user" {
-  type = object({
-    username = string
-    email    = string
-  })
-}

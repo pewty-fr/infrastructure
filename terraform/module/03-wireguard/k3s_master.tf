@@ -5,7 +5,7 @@ resource "wireguard_asymmetric_key" "master" {
 resource "aws_s3_object" "k3s_master" {
   for_each = var.az.k3s_master
   bucket   = "pewty-instance-config"
-  key      = "${var.wg_server.k3s_master[each.key].name}/wg.sh"
+  key      = "${var.scw_instance.k3s_master[each.key].name}/wg.sh"
   content = templatefile("${path.module}/templates/wg.sh", {
     WG_CONF = templatefile("${path.module}/templates/wg.conf", {
       WG_IP             = each.value.wg_ip

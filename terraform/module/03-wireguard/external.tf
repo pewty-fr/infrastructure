@@ -1,6 +1,6 @@
 locals {
-  master_public = { for k, v in var.wg_server.k3s_master : k => {
-    private_ip = var.wg_server.k3s_master[k].public_ip
+  master_public = { for k, v in var.scw_instance.k3s_master : k => {
+    private_ip = var.scw_instance.k3s_master[k].public_ip
     wg_ip      = var.az.k3s_master[k].wg_ip
   } }
 }

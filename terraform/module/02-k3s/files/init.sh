@@ -98,18 +98,30 @@ do
     ###########
     if [[ "$net_ready" == "yes" && "$(mc tag list scw/pewty-instance-config/$HOSTNAME/k3s.sh --json | jq -r '.tagset.update')" == "yes" ]]
     then
-        mc tag set scw/pewty-instance-config/$HOSTNAME/k3s.sh "update=no"
         echo "updating k3s"
+        mc tag set scw/pewty-instance-config/$HOSTNAME/k3s.sh "update=no"
         mc cat scw/pewty-instance-config/$HOSTNAME/k3s.sh | bash
-        while [[ -z "$(kubectl get svc -n kube-system -o json traefik |jq -r '.spec.ports[] | select(.port == 80).nodePort')" && "$(systemctl is-active k3s)" == "active" ]]
-        do
-            echo "waiting for k3s to be fully ready"
-            sleep 2
-        done
-        mc cat scw/pewty-instance-config/$HOSTNAME/haproxy.sh | bash
-        mc cat scw/pewty-instance-config/$HOSTNAME/kubernetes-base.sh | bash
-        mc cat scw/pewty-instance-config/$HOSTNAME/kubernetes-apps.sh | bash
     fi
 
+    ###########
+    ## haproxy
+    ###########
+    if [[ ! -z "$(kubectl get svc -n kube-system -o json traefik | jq -r '.spec.ports[] | select(.port == 80).nodePort')" && "$(mc tag list scw/pewty-instance-config/$HOSTNAME/haproxy.sh --json | jq -r '.tagset.update')" == "yes" ]]
+    then
+        echo "updating haproxy"
+        mc tag set scw/pewty-instance-config/$HOSTNAME/haproxy.sh "update=no"
+        mc cat scw/pewty-instance-config/$HOSTNAME/haproxy.sh | bash
+    fi
+        
+
+    ###########
+    ## kubernetes
+    ###########
+    if [[ ! -z "$(kubectl get svc -n kube-system -o json traefik | jq -r '.spec.ports[] | select(.port == 80).nodePort')" && "$(mc tag list scw/pewty-instance-config/$HOSTNAME/kubernetes.sh --json | jq -r '.tagset.update')" == "yes" ]]
+    then
+        echo "updating kubernetes"
+        mc tag set scw/pewty-instance-config/$HOSTNAME/kubernetes.sh "update=no"
+        mc cat scw/pewty-instance-config/$HOSTNAME/kubernetes.sh | bash
+    fi
     sleep 10
 done

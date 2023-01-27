@@ -13,6 +13,7 @@ authentik:
 
 ingress:
   enabled: true
+  className: "traefik"
   hosts:
     - host: ${DOMAIN}
       paths:
@@ -23,3 +24,10 @@ postgresql:
   enabled: false
 redis:
   enabled: true
+  master:
+    persistence:
+      storageClass: "scw-bssd"
+
+env:
+  CSRF_TRUSTED_ORIGINS: 
+    - https://${DOMAIN}

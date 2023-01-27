@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoip-deployment
+  labels:
+    app: echoip-deployment
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echoip-pod
+  template:
+    metadata:
+      labels:
+        app: echoip-pod
+    spec:
+      containers:
+        - name: echoip 
+          image: mpolden/echoip
+          args: 
+          - -H
+          - "X-Forwarded-Ip"
+          - -l
+          - ":80"
+          ports: 
+            - containerPort: 80
+              name: http-echoip
+          resources:
+            limits:
+              memory: 300Mi
+              cpu:  200m
+            requests:
+              cpu: 150m
+              memory: 150Mi
+---
+# Basic service for port 80
+apiVersion: v1
+kind: Service
+metadata:
+  name: echoip
+spec:
+  selector:
+    app: echoip
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echoip-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: ${DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  echoip-svc
+                port:
+                  number: 80

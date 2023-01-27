@@ -1,0 +1,23 @@
+# See here https://github.com/dirsigler/uptime-kuma-helm/tree/main/charts/uptime-kuma
+
+
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClass: scw-bssd
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations: {}
+  hosts:
+    - host: ${DOMAIN}
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+volume:
+  storageClassName: scw-bssd
+  ize: 1Gi

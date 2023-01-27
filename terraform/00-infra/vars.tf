@@ -47,39 +47,8 @@ variable "pool" {
   description = "List of instances in a given network"
 }
 
-variable "external_device" {
-  type = map(object({
-    wg_ip = string
-  }))
-  default     = {}
-  description = "description"
-}
-
 variable "instance_state" {
   type    = string
   default = "started"
 }
 
-variable "scw_access_key" {
-  sensitive = true
-  type      = string
-}
-
-variable "scw_secret_key" {
-  sensitive = true
-  type      = string
-}
-
-variable "default_user" {
-  type = object({
-    username = string
-    email    = string
-  })
-}
-
-variable "applications" {
-  type = map(object({
-    domain    = string
-    is_public = bool
-  }))
-}

@@ -1,0 +1,23 @@
+redis-ha:
+  enabled: true
+
+controller:
+  replicas: 1
+
+server:
+  replicas: 2
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    hosts:
+      - host: ${DOMAIN}
+        paths:
+          - path: "/"
+            pathType: Prefix
+
+repoServer:
+  replicas: 2
+
+applicationSet:
+  replicaCount: 2
+

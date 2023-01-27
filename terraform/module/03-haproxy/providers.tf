@@ -40,6 +40,11 @@ provider "aws" {
   skip_region_validation      = true
 }
 
+provider "acme" {
+  # server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  server_url = "https://acme-v02.api.letsencrypt.org/directory"
+}
+
 provider "ovh" {
   endpoint = "ovh-eu"
 }
