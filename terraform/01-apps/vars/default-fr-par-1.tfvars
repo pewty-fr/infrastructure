@@ -17,31 +17,37 @@ applications = {
   grafana = {
     domain    = "grafana"
     is_public = true
+    zone = "pewty.xyz"
   }
   alertmanager = {
     domain    = "alertmanager"
-    is_public = false
+    is_public = true
+    zone = "pewty.xyz"
   }
   dashboard = {
     domain    = "dashboard"
-    is_public = false
+    is_public = true
+    zone = "pewty.xyz"
   }
   authentik = {
     domain    = "auth"
     is_public = true
+    zone = "pewty.xyz"
   }
   gitea = {
     domain    = "git"
     is_public = true
+    zone = "pewty.xyz"
   }
   echoip = {
     domain    = "ip"
     is_public = true
+    zone = "pewty.xyz"
   }
   uptimekuma = {
     domain    = "status"
     is_public = true
-    zone = "pewty.fr"
+    zone = "pewty.xyz"
   }
   ntfy = {
     domain    = "notify"

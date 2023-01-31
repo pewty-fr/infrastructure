@@ -1,19 +1,19 @@
 locals {
   haproxy_master_content = { for k, v in var.az.k3s_master : k => templatefile("${path.module}/templates/haproxy.sh", {
     CONFIG = templatefile("${path.module}/templates/haproxy.cfg", {
-      PRIVATE_IP   = v.private_ip
+      PRIVATE_IP   = v.wg_ip
       PRIVATE_IPV6 = v.private_ip_v6
       PUBLIC_IP    = var.scw_instance.k3s_master[k].public_ip
       PUBLIC_IPV6  = var.scw_instance.k3s_master[k].ipv6_address
     })
     PUBLIC_MAP = templatefile("${path.module}/templates/domaintobackend.map", {
       DOMAINS = [
-        for app in var.applications : app.domain if app.is_public
+        for app in var.applications : "${app.domain}.${data.scaleway_account_project.by_project_id.name}.${app.zone}" if app.is_public
       ]
     })
     PRIVATE_MAP = templatefile("${path.module}/templates/domaintobackend.map", {
       DOMAINS = [
-        for app in var.applications : app.domain if app.is_public
+        for app in var.applications : "${app.domain}.${data.scaleway_account_project.by_project_id.name}.${app.zone}" if ! app.is_public
       ]
     })
   })}

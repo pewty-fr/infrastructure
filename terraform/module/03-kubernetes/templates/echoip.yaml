@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: echoip-deployment
+  name: echoip
   labels:
-    app: echoip-deployment
+    app: echoip
 spec:
   revisionHistoryLimit: 1
   replicas: 1
   selector:
     matchLabels:
-      app: echoip-pod
+      app: echoip
   template:
     metadata:
       labels:
-        app: echoip-pod
+        app: echoip
     spec:
       containers:
         - name: echoip 
           image: mpolden/echoip
           args: 
           - -H
-          - "X-Forwarded-Ip"
+          - "X-REAL-IP"
           - -l
           - ":80"
           ports: 
@@ -49,7 +49,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: echoip-ingress
+  name: echoip
 spec:
   ingressClassName: traefik
   rules:
@@ -60,6 +60,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name:  echoip-svc
+                name:  echoip
                 port:
                   number: 80

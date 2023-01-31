@@ -32,3 +32,5 @@ gitea:
       SCHEME: https
     server:
       ROOT_URL: https://${DOMAIN}
+    service: 
+      DISABLE_REGISTRATION: true

@@ -6,6 +6,7 @@ locals {
       {
         ip     = server.public_ip
         domain = app.domain
+        zone = app.zone
       } if app.is_public
     ]
   ])
@@ -16,6 +17,7 @@ locals {
       {
         ip     = server.ipv6_address
         domain = app.domain
+        zone = app.zone
       } if app.is_public
     ]
   ])
@@ -24,8 +26,9 @@ locals {
     [
       for server in var.az.k3s_master :
       {
-        ip     = server.private_ip
+        ip     = server.wg_ip
         domain = app.domain
+        zone = app.zone
       } if !app.is_public
     ]
   ])
@@ -36,6 +39,7 @@ locals {
       {
         ip     = server.private_ip_v6
         domain = app.domain
+        zone = app.zone
       } if !app.is_public
     ]
   ])
@@ -43,7 +47,7 @@ locals {
 
 resource "ovh_domain_zone_record" "a_public_record" {
   for_each  = { for record in local.public_a : "${record.domain}-${record.ip}" => record }
-  zone      = "pewty.xyz"
+  zone      = each.value.zone
   subdomain = "${each.value.domain}.${data.scaleway_account_project.by_project_id.name}"
   fieldtype = "A"
   ttl       = "60"
@@ -52,7 +56,7 @@ resource "ovh_domain_zone_record" "a_public_record" {
 
 resource "ovh_domain_zone_record" "aaaa_public_record" {
   for_each  = { for record in local.public_aaaa : "${record.domain}-${record.ip}" => record }
-  zone      = "pewty.xyz"
+  zone      = each.value.zone
   subdomain = "${each.value.domain}.${data.scaleway_account_project.by_project_id.name}"
   fieldtype = "AAAA"
   ttl       = "60"
@@ -61,7 +65,7 @@ resource "ovh_domain_zone_record" "aaaa_public_record" {
 
 resource "ovh_domain_zone_record" "a_private_record" {
   for_each  = { for record in local.private_a : "${record.domain}-${record.ip}" => record }
-  zone      = "pewty.xyz"
+  zone      = each.value.zone
   subdomain = "${each.value.domain}.${data.scaleway_account_project.by_project_id.name}"
   fieldtype = "A"
   ttl       = "60"
@@ -70,7 +74,7 @@ resource "ovh_domain_zone_record" "a_private_record" {
 
 resource "ovh_domain_zone_record" "aaaa_private_record" {
   for_each  = { for record in local.private_aaaa : "${record.domain}-${record.ip}" => record }
-  zone      = "pewty.xyz"
+  zone      = each.value.zone
   subdomain = "${each.value.domain}.${data.scaleway_account_project.by_project_id.name}"
   fieldtype = "AAAA"
   ttl       = "60"

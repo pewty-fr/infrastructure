@@ -5,13 +5,18 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
-    forwardedHeaders:
-      enabled: true
-      trustedIPs:
-        - 10.0.0.0/8
-        - 172.16.0.0/12
-    ssl:
-      enabled: false
-      permanentRedirect: false
+    ports:
+      web:
+        forwardedHeaders:
+          enabled: true
+          trustedIPs:
+            - 10.0.0.0/8
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+            - 127.0.0.1/32
+        ssl:
+          enabled: false
+          permanentRedirect: false
     service:
       type: NodePort
+

@@ -46,10 +46,7 @@ variable db {
 }
 
 variable "applications" {
-  type = map(object({
-    domain    = string
-    is_public = bool
-  }))
+  type = any
 }
 
 data "scaleway_account_project" "by_project_id" {

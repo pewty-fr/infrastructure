@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ntfy-deployment
+  name: ntfy
   labels:
-    app: ntfy-deployment
+    app: ntfy
 spec:
   revisionHistoryLimit: 1
   replicas: 1
   selector:
     matchLabels:
-      app: ntfy-pod
+      app: ntfy
   template:
     metadata:
       labels:
-        app: ntfy-pod
+        app: ntfy
     spec:
       containers:
         - name: ntfy 
@@ -70,6 +70,8 @@ data:
     base-url: https://${DOMAIN}
     cache-file: "/var/cache/ntfy/cache.db"
     attachment-cache-dir: "/var/cache/ntfy/attachments"
+    auth-file: "/var/cache/ntfy/user.db"
+    auth-default-access: "read-write"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -83,20 +85,20 @@ spec:
     requests:
       storage: 1Gi
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ntfy-ingress
-spec:
-  ingressClassName: traefik
-  rules:
-    - host: ${DOMAIN}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name:  ntfy-svc
-                port:
-                  number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ntfy
+# spec:
+#   ingressClassName: traefik
+#   rules:
+#     - host: ${DOMAIN}
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name:  ntfy
+#                 port:
+#                   number: 80

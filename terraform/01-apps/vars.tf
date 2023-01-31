@@ -32,6 +32,7 @@ variable "applications" {
   type = map(object({
     domain    = string
     is_public = bool
+    zone = string
   }))
 }
 

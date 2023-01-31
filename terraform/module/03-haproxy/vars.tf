@@ -23,10 +23,7 @@ data "scaleway_account_project" "by_project_id" {
 }
 
 variable "applications" {
-  type = map(object({
-    domain    = string
-    is_public = bool
-  }))
+  type = any
 }
 
 variable "scw_instance" {

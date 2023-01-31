@@ -48,7 +48,7 @@ helm repo update
 cat > /root/argocd.values.yaml << EOL
 ${ARGOCD}
 EOL
-helm upgrade --install argo argo/argo-cd -f /root/argocd.values.yaml
+# helm --kubeconfig /etc/rancher/k3s/k3s.yaml upgrade --install argo argo/argo-cd -f /root/argocd.values.yaml
 
 ###########
 ## VM
@@ -58,8 +58,8 @@ ${VM_STACK}
 EOL
 
 kubectl apply -f https://raw.githubusercontent.com/VictoriaMetrics/helm-charts/master/charts/victoria-metrics-k8s-stack/crds/crd.yaml
-kubectl create ns vm-stack
-helm --kubeconfig /etc/rancher/k3s/k3s.yaml upgrade --install vm-stack vm/victoria-metrics-k8s-stack -f /root/vm-stack.values.yaml -n vm-stack
+kubectl create ns vm
+helm --kubeconfig /etc/rancher/k3s/k3s.yaml upgrade --install vm vm/victoria-metrics-k8s-stack -f /root/vm-stack.values.yaml -n vm
 
 ###########
 ## Authentik
@@ -77,7 +77,20 @@ cat > /root/dashboard.values.yaml << EOL
 ${DASHBOARD}
 EOL
 
-helm --kubeconfig /etc/rancher/k3s/k3s.yaml upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f /root/dashboard.values.yaml
+helm --kubeconfig /etc/rancher/k3s/k3s.yaml upgrade --install dashboard kubernetes-dashboard/kubernetes-dashboard -f /root/dashboard.values.yaml
+
+kubectl create serviceaccount kubernetes-dashboard-admin
+kubectl create clusterrolebinding kubernetes-dashboard-admin --clusterrole=cluster-admin --serviceaccount=default:kubernetes-dashboard-admin
+cat > /root/dashboard.secret.yaml << EOL
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: kubernetes-dashboard-admin
+  annotations:
+    kubernetes.io/service-account.name: kubernetes-dashboard-admin
+EOL
+kubectl apply -f /root/dashboard.secret.yaml
 
 ###########
 ## Gitea

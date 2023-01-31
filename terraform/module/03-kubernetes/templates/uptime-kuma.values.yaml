@@ -9,7 +9,7 @@ persistence:
   storageClass: scw-bssd
 
 ingress:
-  enabled: true
+  enabled: false
   className: traefik
   annotations: {}
   hosts:

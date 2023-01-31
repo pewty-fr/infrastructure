@@ -1,5 +1,5 @@
 ingress:
-  enabled: true
+  enabled: false
   className: "traefik"
   hosts:
   - ${DOMAIN}
@@ -8,3 +8,6 @@ metricsScraper:
 protocolHttp: true
 extraArgs:
   - --enable-insecure-login
+  - --insecure-bind-address=0.0.0.0
+service:
+  externalPort: 80

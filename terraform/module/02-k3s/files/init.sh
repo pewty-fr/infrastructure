@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-metadata(){
+route_metadata(){
   # to access directly to scaleway metadata and avoid getting metadata from router server
   ip=$(ip -f inet addr show ens2 | awk '/inet / {print $2}' | cut -d "/" -f 1)
   cat >> /etc/netplan/50-cloud-init.yaml << EOL
@@ -8,6 +8,10 @@ metadata(){
               via: ${ip}
 EOL
   netplan apply
+}
+
+get_metadata(){
+  scw-metadata-json > /root/metadata.json
 }
 
 check_net(){
@@ -52,7 +56,7 @@ then
     iptables -A FORWARD -i ${interface} -o ens2 -j ACCEPT
 fi
 
-metadata
+route_metadata
 wg-quick up wg-pewty
 check_net
 check_wg
