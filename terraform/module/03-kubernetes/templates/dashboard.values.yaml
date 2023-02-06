@@ -7,7 +7,9 @@ metricsScraper:
   enabled: true
 protocolHttp: true
 extraArgs:
-  - --enable-insecure-login
-  - --insecure-bind-address=0.0.0.0
+- --enable-skip-login
+- --disable-settings-authorizer
+- --enable-insecure-login
+- --insecure-bind-address=0.0.0.0
 service:
   externalPort: 80

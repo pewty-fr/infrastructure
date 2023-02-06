@@ -80,4 +80,3 @@ resource "ovh_domain_zone_record" "aaaa_private_record" {
   ttl       = "60"
   target    = each.value.ip
 }
-

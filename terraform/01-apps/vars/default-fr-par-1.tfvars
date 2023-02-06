@@ -9,7 +9,10 @@ default_user = {
 
 external_device = {
   ep_hp = {
-    wg_ip = "172.17.0.230"
+    wg_ip = "172.20.0.230"
+  }
+  home_assistant = {
+    wg_ip = "172.20.0.231"
   }
 }
 
@@ -51,6 +54,11 @@ applications = {
   }
   ntfy = {
     domain    = "notify"
+    is_public = true
+    zone = "pewty.xyz"
+  }
+  hass = {
+    domain    = "hass"
     is_public = true
     zone = "pewty.xyz"
   }

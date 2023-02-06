@@ -9,7 +9,7 @@ pool = {
   mask = "16"
   AZs = {
     "AZ_A" = {
-      wg_net          = "172.17.0.0"
+      wg_net          = "172.20.0.0"
       wg_mask         = "24"
       private_net     = "172.16.0.0"
       private_mask    = "24"
@@ -22,24 +22,24 @@ pool = {
       }
       k3s_master = {
         "k3s-master-01" = {
-          wg_ip         = "172.17.0.10"
+          wg_ip         = "172.20.0.10"
           private_ip_v6 = "fdce:bb07:320d:0000:0000:0000:0000:0010"
           private_ip    = "172.16.0.10"
         }
         "k3s-master-02" = {
-          wg_ip         = "172.17.0.11"
+          wg_ip         = "172.20.0.11"
           private_ip_v6 = "fdce:bb07:320d:0000:0000:0000:0000:0011"
           private_ip    = "172.16.0.11"
         }
       }
       k3s_worker = {
         "k3s-worker-01" = {
-          wg_ip         = "172.17.0.13"
+          wg_ip         = "172.20.0.13"
           private_ip_v6 = "fdce:bb07:320d:0000:0000:0000:0000:0013"
           private_ip    = "172.16.0.13"
         }
         "k3s-worker-02" = {
-          wg_ip         = "172.17.0.14"
+          wg_ip         = "172.20.0.14"
           private_ip_v6 = "fdce:bb07:320d:0000:0000:0000:0000:0014"
           private_ip    = "172.16.0.14"
         }

@@ -14,9 +14,7 @@ resource "acme_registration" "registration" {
 resource "acme_certificate" "certificate" {
   account_key_pem = acme_registration.registration.account_key_pem
   common_name     = data.ovh_domain_zone.rootzone.id
-  subject_alternative_names = [
-    for app in var.applications : "${app.domain}.${data.scaleway_account_project.by_project_id.name}.pewty.xyz"
-  ]
+  subject_alternative_names = ["*.pewty.xyz", "*.${data.scaleway_account_project.by_project_id.name}.pewty.xyz"]
 
   dns_challenge {
     provider = "ovh"

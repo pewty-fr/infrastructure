@@ -20,7 +20,7 @@ resource "local_file" "external_conf" {
     WORKER_PEERS      = {}
     WORKER_KEYS       = {}
     OUTSIDE_PEERS     = []
-    OUTSIDE_NETWORKS  = ",${var.az.private_net}/${var.az.private_mask},${var.az.private_net_v6}/${var.az.private_mask_v6}"
+    OUTSIDE_NETWORKS  = ""
     OUTSIDE_PUB_KEYS  = []
     EXTERNAL_DEVICE   = {}
     EXTERNAL_PUB_KEYS = {}

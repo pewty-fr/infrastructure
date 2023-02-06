@@ -1,3 +1,4 @@
+hass\.default\.pewty\.xyz hass
 %{ for domain in DOMAINS ~}
 ${domain}   localhost
 %{ endfor ~}
